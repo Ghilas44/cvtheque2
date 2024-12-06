@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\{
     Metier,
@@ -44,18 +43,17 @@ class MetierController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(MetierRequest $metierRequest)
-    {   
-
+    {
         $metier = new Metier;
         $metier->libelle = $metierRequest->libelle;
-        $metier->slug = Str::slug($metier->libelle);
         $metier->description = $metierRequest->description;
-        // $metier->slug = $metierRequest->slug;
+        $metier->slug = $metierRequest->slug;
         $metier->save();
+        $msg = "Création correctement effectuée.";
 
-        $msg = "Enregistrement correctement effectué";
         return redirect()->Route('metiers.index')->withToto($msg);
     }
+    
 
     /**
      * Display the specified resource.
@@ -81,6 +79,7 @@ class MetierController extends Controller
             'description' => 'Retourner un métier de la ' . config('app.name'),
             'metier' => $metier,
         ];
+
         // dd($data);
         return view('metiers/edit', $data);
     }
@@ -92,7 +91,6 @@ class MetierController extends Controller
     public function update(MetierRequest $metierRequest, Metier $metier)
     {
         $valideData = $metierRequest->all();
-        $metier->slug = Str::slug($valideData['libelle']);
         $metier->update($valideData);
         
         $msg = "Modification correctement effectuée.";
@@ -114,8 +112,10 @@ class MetierController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Metier $metier)
     {
-        //
+        $metier->delete();
+        $msg = 'Métier supprimé avec succès.';
+        return redirect()->Route('metiers.index')->withToto($msg);
     }
 }

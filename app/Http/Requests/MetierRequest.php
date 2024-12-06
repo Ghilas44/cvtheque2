@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Str;
 
 class MetierRequest extends FormRequest
 {
@@ -21,22 +23,37 @@ class MetierRequest extends FormRequest
      */
     public function rules(): array
     {
-        
         return [
             'libelle' => [
                 'required', 
                 'string', 
-                'max:120', 
+                'max:120',
             ],
-            'description'=> [
+            'slug' => $this->method() == 'POST' ?
+            [
                 'required', 
                 'string', 
-                'max:500'],
-            // 'slug' => [
-            //     'required', 
-            //     'string', 
-            //     'max:120', 
-            // ],
+                'max:120',
+                'unique:metiers,slug'
+            ] : 
+            [
+                'required', 
+                'string', 
+                'max:120',
+                Rule::unique('metiers', 'slug') ->ignore($this->metier)
+            ],
+            'description' => [
+                'required', 
+                'string', 
+                'max:500',
+            ],
         ];
     }
+
+    protected function prepareForValidation(){
+        $this->merge([
+            'slug' => Str::slug($this->slug),
+        ]);
+    }
+    
 }

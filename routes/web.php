@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     CompetenceController,
     CvthequeController,
-    MetierController
+    MetierController,
+    ProfessionnelController
 };
 use App\Models\Competence;
 
@@ -30,7 +31,10 @@ use App\Models\Competence;
 Route::get('/',[CvthequeController::class, 'index'])->name('Accueil');
 Route::get('/competences/supprimer/{competence}',[CompetenceController::class, 'formDelete'])->name('DeleteSkill');
 Route::get('/metiers/supprimer/{metier}',[MetierController::class, 'formDelete'])->name('DeleteJob');
+Route::get('/professionnels/supprimer/{professionnel}',[ProfessionnelController::class, 'formDelete'])->name('professionnels.delete');
+Route::get('/metier/{slug}/professionnels',[ProfessionnelController::class, 'index'])->name('professionnels.metier');
 
 Route::resource('competences', CompetenceController::class);
 Route::resource('metiers', MetierController::class);
+Route::resource('professionnels', ProfessionnelController::class);
 

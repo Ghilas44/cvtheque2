@@ -14,4 +14,8 @@ class Metier extends Model
         'description',
         'slug',
     ];
+
+    public function professionnels(){
+        return $this->hasMany(Professionnel::class);
+    }
 }

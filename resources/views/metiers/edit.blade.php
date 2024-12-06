@@ -26,6 +26,13 @@
             @enderror
             <label for="floatingInput">Description</label>
         </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" placeholder="name@example.com" value="{{old('slug',$metier->slug)}}"/>
+            @error('slug')
+            <p class = "text-danger" role="alert">{{$message}}</p>
+            @enderror
+            <label for="floatingInput">Slug</label>
+        </div>
         <div>
             <a href="{{Route('metiers.index')}}" class="btn btn-outline-primary">Retour</a>
             <button type="submit" class="btn btn btn-outline-warning">Modifier</button>
