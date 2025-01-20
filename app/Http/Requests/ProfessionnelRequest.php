@@ -31,14 +31,19 @@ class ProfessionnelRequest extends FormRequest
             'naissance'=>['required','date_format:Y-m-d'],
             'formation'=>['required'],
             'domaine'=>['required'],
-            'metier_id'=>['required']
+            'metier_id'=>['required'],
+            'competence_id'=>['required'],
+            'cv' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],
         ];
     }
 
     public function messages(){
         return [
             'metier_id.required' => 'Le champ metier est obligatoire.',
-            'cp.between' => 'Le code postal doit contenir 5 caractères.'
+            'competence_id.required' => 'Le champ compétence est obligatoire.',
+            'cp.between' => 'Le code postal doit contenir 5 caractères.',
+            'cv.mimes' => 'Le CV doit être un fichier PDF.',
+            'cv.max' => 'Le CV ne peut pas dépasser 2 Mo.',
         ];
     }
 }

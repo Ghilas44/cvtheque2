@@ -130,7 +130,18 @@
             <p class="text-danger" role="alert">{{ $message }}</p>
             @enderror
         </div>
-
+        <legend>Compétences :</legend>
+        <div>
+            @if($professionnel->competences->isNotEmpty())
+                <ul>
+                    @foreach($professionnel->competences as $competence)
+                        <li>{{ $competence->intitule }}</li>
+                    @endforeach
+                </ul>
+            @else
+                <p>Aucune compétence associée.</p>
+            @endif
+        </div>
         <div class="mt-3">
             <a href="{{ Route('professionnels.index') }}" class="btn btn-outline-primary">Retour</a>
             <button type="submit" class="btn btn-outline-danger">Supprimer</button>

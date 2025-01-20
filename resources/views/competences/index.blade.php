@@ -6,6 +6,17 @@
 @section('contenu')
 <div class="container mt-4">
         <h2>Liste des compétences</h2>
+        <div>
+            <form class="d-flex mb-3" action="{{ route('competences.index') }}" method="GET">
+                <input 
+                    class="form-control me-sm-2" 
+                    type="text" 
+                    name="search" 
+                    placeholder="Rechercher une compétence..." 
+                    value="{{ old('search', $search) }}"> <!-- Garde la recherche en cours -->
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher</button>
+            </form>
+        </div>
         <a href="{{Route('competences.create')}}"><button type="button" class="btn  btn-outline-success">Créer une compétence</button>
         </a>
         @if(session('toto')) 
@@ -23,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach($competences as $competence)
+            @forelse($competences as $competence)
                 <tr>
                     <td>{{ $competence->intitule }}</td>
                     <td>{{ $competence->created_at }}</td>
@@ -45,7 +56,11 @@
                         </form>
                     </td>
                 </tr>
-            @endforeach
+                @empty
+                <tr>
+                    <td colspan="3" class="text-center">Aucune compétence trouvée.</td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
     </div>

@@ -15,18 +15,29 @@ class CompetenceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // $competences= Competence::all();
         // $competences= Competence::orderBy('id','asc')->get();
         // vérifier par where pour filtrer un minimum
         // $competences= Competence::where('intitule','!=', 'Gestion de projet')->get();
-        $competences= Competence::get();
 
+        // $competences= Competence::get();
+        $search = $request->input('search'); 
+
+        // Si une recherche est effectuée, filtrer les compétences
+        $competences = Competence::query()
+            ->when($search, function ($query, $search) {
+                $query->where('intitule', 'LIKE', '%' . $search . '%');
+            })
+            ->orderBy('created_at', 'desc') // Optionnel : tri par date de création
+            ->paginate(10); // Paginer les résultats pour une meilleure lisibilité
+            
         $data =[
             'titre'=>'Les compétences de la ' . config('app.name'),
             'description' => 'Retourner l\'ensemble des compétences de la ' . config('app.name'),
             'competences' => $competences,
+            'search' => $search,
         ];
         // dd (vars: $competences);
         return view('competences/index', $data);

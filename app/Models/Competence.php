@@ -14,4 +14,13 @@ class Competence extends Model
         'description',
     ];
 
+    /**
+     * Une compétence (model) est partagée par plusieurs (belongsToMany) professionnels
+     * Récupération de tous les professionnels qui ont telle ou telle(s) compétence(s)
+     * -> withTimestamps pour la gestion des propriétés appartenant à la relation
+     */
+    public function professionnels(){
+
+        return $this->belongsToMany(Professionnel::class)->withTimestamps();
+    }
 }

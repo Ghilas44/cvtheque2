@@ -3,7 +3,7 @@
 
 {{-- Directive de blade spécifiant l'injection du contenu de la section --}}
 @section('contenu')
-<form action="{{ Route('professionnels.store') }}" method="POST">
+<form action="{{ Route('professionnels.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <fieldset>
         <legend>Création d'un nouveau Professionnel :</legend>
@@ -88,7 +88,20 @@
             @enderror
             <label for="metier_id">Métier</label>
         </div>
-
+        <div>
+            <label for="formFile" class="form-label mt-4">CV à faire parcourir</label>
+            <input class="form-control" type="file" id="formFile" name="cv">
+        </div>
+        <div>
+            <label for="exampleSelect2" class="form-label mt-4">Compétences</label>
+            <select multiple class="form-select @error('competence_id') is-invalid @enderror" id="competence_id" name="competence_id[]">
+                @foreach($competences as $competence)
+                    <option value="{{ $competence->id }}" {{ in_array($competence->id, old('competence_id', [])) ? 'selected' : '' }}>
+                        {{ $competence->intitule }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <!-- Formation -->
         <legend>En formation ?</legend>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">

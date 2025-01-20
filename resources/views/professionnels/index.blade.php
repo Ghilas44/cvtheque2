@@ -6,6 +6,7 @@
 @section('contenu')
 <div class="container mt-4">
         <h2>Liste des professionnels</h2>
+        <div>
         <select class="form-control border-primary" onchange="location.href=this.value">    
             <option value="{{route('professionnels.index')}}" @unless($slug) selected @endunless>        
                 Tous les professionnels    
@@ -17,6 +18,22 @@
                 </option>    
             @endforeach
         </select>
+        </div>
+        <br>
+        {{-- Barre de recherche par compétence --}}
+        <div class="mb-3">
+            <form class="d-flex" action="{{ route('professionnels.index') }}" method="GET">
+                {{-- Garder le slug dans l'URL si un métier est sélectionné --}}
+                    <input type="hidden" name="slug" value="{{ $slug }}">
+                <input 
+                    class="form-control me-2" 
+                    type="text" 
+                    name="competence" 
+                    placeholder="Rechercher une compétence..." 
+                    value="{{ request('competence') }}">
+                <button class="btn btn-secondary" type="submit">Rechercher</button>
+            </form>
+        </div>
         <a href="{{Route('professionnels.create')}}">    <button type="button" class="btn btn-outline-success float-end mt-3">Ajouter un professionnel</button>
         </a>
         @if(session('toto')) 
@@ -33,6 +50,7 @@
                     <th>Métier</th>
                     <th>Domiciliation</th>
                     <th>En formation</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,4 +83,7 @@
             </tbody>
         </table>
     </div>
+    <footer class="pagination justify-content-center p-lg-5">
+        {{ $professionnels->links() }}
+    </footer>
 @endsection

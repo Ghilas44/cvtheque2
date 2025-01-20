@@ -31,9 +31,10 @@
             <a class="nav-link" href="{{Route('professionnels.index')}}">Professionnels</a>
             </li>
         </ul>
-        <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        <form class="d-flex" action="{{ route('professionnels.index') }}" method="GET">
+            <input class="form-control me-sm-2" type="search" placeholder="Par professionnel . . ."
+                    name = "professionnel" value="{{ request('professionnel') }}">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher</button>
         </form>
         </div>
     </div>

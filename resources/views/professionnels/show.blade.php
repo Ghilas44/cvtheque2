@@ -78,7 +78,18 @@
             <input class="form-control" id="disabledInput" type="text" placeholder="{{ $professionnel->updated_at ?? 'Pas de date...' }}" disabled="">
         </fieldset>
     </div>
-
+    <div>
+        <label class="form-label" for="disabledInput">Compétences :</label>
+        @if($professionnel->competences->isNotEmpty())
+            <ul>
+                @foreach($professionnel->competences as $competence)
+                    <li>{{ $competence->intitule }}</li>
+                @endforeach
+            </ul>
+        @else
+            <p>Aucune compétence associée.</p>
+        @endif
+    </div>
     <br>
     <div>
         <a href="{{ Route('professionnels.index') }}" class="btn btn-outline-primary">Retour</a>

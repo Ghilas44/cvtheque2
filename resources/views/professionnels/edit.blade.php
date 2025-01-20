@@ -95,6 +95,22 @@
             <label for="metier_id">Métier</label>
         </div>
 
+        <div>
+            <label for="exampleSelect2" class="form-label mt-4">Compétences</label>
+            <select multiple class="form-select @error('competence_id') is-invalid @enderror" id="competence_id" name="competence_id[]">
+                @foreach($competences as $competence)
+                    <option value="{{ $competence->id }}" 
+                        {{-- Utilisation d'une boucle pour vérifier les compétences associées --}}
+                        {{ $professionnel->competences->contains($competence) ? 'selected' : '' }}>
+                        {{ $competence->intitule }}
+                    </option>
+                @endforeach
+            </select>
+            @error('competence_id')
+            <p class="text-danger" role="alert">{{ $message }}</p>
+            @enderror
+        </div>
+
 
         <!-- Formation -->
         <legend>En formation ?</legend>
